@@ -42,3 +42,25 @@ class TestSecurityAndUiE2E(BaseTest):
         with allure.step("2. Confirm system handles input securely"):
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("Security - Cross-Site Scripting (XSS)")
+    @allure.title("TC_SEC_03: Verify cross-site scripting XSS prevention")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_SEC_03_xss_protection(self):
+        login_page = LoginPage(self.driver).open()
+        xss_payload = "<script>alert('XSS_ATTACK')</script>"
+
+        with allure.step(f"1. Inject script payload into form: {xss_payload}"):
+            login_page.login_as(xss_payload, "password123")
+
+        with allure.step("2. Confirm script is not executed as browser alert dialog"):
+            try:
+                alert = self.driver.switch_to.alert
+                alert_text = alert.text
+                alert.dismiss()
+                pytest.fail(f"XSS vulnerability detected! Alert dialog was executed: {alert_text}")
+            except UnexpectedAlertPresentException:
+                pytest.fail("Unexpected XSS alert detected!")
+            except Exception:
+                # No alert was triggered => Secure
+                assert True
+
