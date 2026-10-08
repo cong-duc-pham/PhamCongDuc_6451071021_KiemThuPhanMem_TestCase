@@ -68,3 +68,14 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Bạn chưa nhập tên đăng nhập" in login_page.get_error_message()
 
+    @allure.story("Form Validation")
+    @allure.title("TC_LOG_05: Verify validation error when username is empty")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_05_empty_username_only(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Leave username empty and enter password"):
+            login_page.login_as("", "Password123@")
+        with allure.step("2. Verify validation error message"):
+            assert login_page.is_on_login_page() is True
+            assert "Bạn chưa nhập tên đăng nhập" in login_page.get_error_message()
+
