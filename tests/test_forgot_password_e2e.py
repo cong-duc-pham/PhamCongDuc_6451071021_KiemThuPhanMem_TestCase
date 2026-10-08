@@ -67,3 +67,13 @@ class TestForgotPasswordE2E(BaseTest):
         with allure.step("2. Verify validation error message"):
             assert "Mã bảo mật không chính xác" in forgot_page.get_error_message()
 
+    @allure.story("Form Validation")
+    @allure.title("TC_FP_06: Verify validation error when all fields are empty")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_FP_06_empty_all_fields(self):
+        forgot_page = ForgotPasswordPage(self.driver).open()
+        with allure.step("1. Click submit without filling in any fields"):
+            forgot_page.click_submit()
+        with allure.step("2. Verify validation error message"):
+            assert "Mã bảo mật không chính xác" in forgot_page.get_error_message()
+
