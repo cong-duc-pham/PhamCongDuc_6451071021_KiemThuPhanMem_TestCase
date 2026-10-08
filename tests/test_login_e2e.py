@@ -46,3 +46,14 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("Internal Account Authentication")
+    @allure.title("TC_LOG_03: Verify login fails with non-existent username")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_LOG_03_non_existent_username(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter non-existent username"):
+            login_page.login_as("user_khong_ton_tai_99999", "AnyPassword123")
+        with allure.step("2. Verify general security error message"):
+            assert login_page.is_on_login_page() is True
+            assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
+
