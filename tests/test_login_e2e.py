@@ -102,3 +102,14 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert login_page.get_error_message() != ""
 
+    @allure.story("Password Security")
+    @allure.title("TC_LOG_08: Verify password case sensitivity")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_08_password_case_sensitivity(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter password with incorrect casing"):
+            login_page.login_as("sinhvien01", "password123")
+        with allure.step("2. Verify login failure due to case sensitivity"):
+            assert login_page.is_on_login_page() is True
+            assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
+
