@@ -82,3 +82,14 @@ class TestSecurityAndUiE2E(BaseTest):
             self.driver.get("https://vanphongdientu.utc.edu.vn/Login")
             assert self.driver.current_url.startswith("https://")
 
+    @allure.story("User Interface (UI)")
+    @allure.title("TC_UI_01: Verify ui banner slogan and footer copyright display")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_UI_01_banner_slogan_and_copyright(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Check primary banner header and subtitle"):
+            assert "Không chỉ là một giải pháp quản lý" in login_page.get_banner_title()
+            assert "Làm việc mọi lúc mọi nơi" in login_page.get_banner_subtitle()
+        with allure.step("2. Check footer copyright text"):
+            assert "Trường ĐH Giao Thông Vận Tải" in login_page.get_copyright_text()
+
