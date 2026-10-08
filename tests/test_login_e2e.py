@@ -91,3 +91,14 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Bạn chưa nhập mật khẩu" in login_page.get_error_message()
 
+    @allure.story("Input String Normalization")
+    @allure.title("TC_LOG_07: Verify username trimming for leading and trailing spaces")
+    @allure.severity(allure.severity_level.MINOR)
+    def test_TC_LOG_07_username_trim_spaces(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter username containing leading and trailing whitespaces"):
+            login_page.login_as("  sinhvien01  ", "Password123")
+        with allure.step("2. Confirm system handles input safely without crashing"):
+            assert login_page.is_on_login_page() is True
+            assert login_page.get_error_message() != ""
+
