@@ -35,3 +35,15 @@ class TestForgotPasswordE2E(BaseTest):
             assert forgot_page.is_captcha_image_displayed() is True
             assert "/login/index/captcha" in forgot_page.get_captcha_image_src()
 
+    @allure.story("Form Validation")
+    @allure.title("TC_FP_03: Verify reset password fails with invalid captcha")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_FP_03_invalid_captcha(self):
+        forgot_page = ForgotPasswordPage(self.driver).open()
+        with allure.step("1. Enter incorrect Captcha and valid Email"):
+            forgot_page.request_reset(captcha="000000", email="sinhvien01@utc.edu.vn")
+        with allure.step("2. Verify Captcha error notification"):
+            error_msg = forgot_page.get_error_message()
+            allure.attach(error_msg, name="Error Message", attachment_type=allure.attachment_type.TEXT)
+            assert "Mã bảo mật không chính xác" in error_msg
+
