@@ -79,3 +79,15 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Bạn chưa nhập tên đăng nhập" in login_page.get_error_message()
 
+    @allure.story("Form Validation")
+    @allure.title("TC_LOG_06: Verify validation error when password is empty")
+    @allure.severity(allure.severity_level.NORMAL)
+    @pytest.mark.smoke
+    def test_TC_LOG_06_empty_password_only(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter username and leave password blank"):
+            login_page.login_as("sinhvien01", "")
+        with allure.step("2. Verify prompt requiring password input"):
+            assert login_page.is_on_login_page() is True
+            assert "Bạn chưa nhập mật khẩu" in login_page.get_error_message()
+
