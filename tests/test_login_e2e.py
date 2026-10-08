@@ -57,3 +57,14 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("Form Validation")
+    @allure.title("TC_LOG_04: Verify validation error when credentials are empty")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_04_empty_credentials(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Submit form leaving both fields empty"):
+            login_page.login_as("", "")
+        with allure.step("2. Verify prompt requiring username input"):
+            assert login_page.is_on_login_page() is True
+            assert "Bạn chưa nhập tên đăng nhập" in login_page.get_error_message()
+
