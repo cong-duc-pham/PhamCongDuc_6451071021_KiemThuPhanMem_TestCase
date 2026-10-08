@@ -93,3 +93,12 @@ class TestSecurityAndUiE2E(BaseTest):
         with allure.step("2. Check footer copyright text"):
             assert "Trường ĐH Giao Thông Vận Tải" in login_page.get_copyright_text()
 
+    @allure.story("User Interface (UI)")
+    @allure.title("TC_UI_02: Verify help center link opens in new tab")
+    @allure.severity(allure.severity_level.MINOR)
+    def test_TC_UI_02_help_center_link(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Verify help center href and target attributes"):
+            assert "hotrokythuat.utc.edu.vn" in login_page.get_help_link_href()
+            assert login_page.get_help_link_target() == "_blank"
+
