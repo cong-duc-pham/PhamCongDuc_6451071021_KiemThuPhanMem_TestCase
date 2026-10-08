@@ -102,3 +102,11 @@ class TestSecurityAndUiE2E(BaseTest):
             assert "hotrokythuat.utc.edu.vn" in login_page.get_help_link_href()
             assert login_page.get_help_link_target() == "_blank"
 
+    @allure.story("User Interface (UI)")
+    @allure.title("TC_UI_03: Verify feedback mailto link protocol")
+    @allure.severity(allure.severity_level.MINOR)
+    def test_TC_UI_03_feedback_mailto_link(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Verify recipient mailto protocol and address"):
+            assert login_page.get_feedback_link_href() == "mailto:hotrokythuat@utc.edu.vn"
+
