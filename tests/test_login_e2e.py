@@ -133,3 +133,14 @@ class TestLoginE2E(BaseTest):
         with allure.step("1. Verify HTML type attribute of password input"):
             assert login_page.is_password_field_masked() is True, "Password field must have type='password'!"
 
+    @allure.story("User Experience")
+    @allure.title("TC_LOG_12: Verify form submission via Enter key")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_12_submit_by_enter_key(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter credentials and press Enter from password field"):
+            login_page.submit_by_enter("sinhvien01", "SaiMatKhau123")
+        with allure.step("2. Confirm form is submitted automatically"):
+            assert login_page.is_on_login_page() is True
+            assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
+
