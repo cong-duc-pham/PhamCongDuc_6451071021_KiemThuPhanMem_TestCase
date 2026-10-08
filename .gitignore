@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest cache and test artifacts
+.pytest_cache/
+reports/
+build/
+
+# Tools binary
+tools/
+
+# Temporary Excel and OS files
+~$*.xlsx
+.DS_Store
+Thumbs.db
+
+# Temporary scripts
+execute_git_flow.py
+git_process_pusher.py
+check_test_list.py
+run_git_flow.py
+run_git_flow_en.py
