@@ -29,3 +29,16 @@ class TestSecurityAndUiE2E(BaseTest):
             assert "database error" not in page_content
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("Security - SQL Injection Prevention")
+    @allure.title("TC_SEC_02: Verify SQL injection prevention on password field")
+    @allure.severity(allure.severity_level.BLOCKER)
+    def test_TC_SEC_02_sql_injection_in_password(self):
+        login_page = LoginPage(self.driver).open()
+        sqli_payload = "' OR '1'='1"
+
+        with allure.step(f"1. Input SQL injection payload in password: {sqli_payload}"):
+            login_page.login_as("admin", sqli_payload)
+
+        with allure.step("2. Confirm system handles input securely"):
+            assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
+
