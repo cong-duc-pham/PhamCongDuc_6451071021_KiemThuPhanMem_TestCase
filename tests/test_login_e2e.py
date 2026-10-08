@@ -113,3 +113,15 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("Session Persistence")
+    @allure.title("TC_LOG_09: Verify keep me logged in checkbox toggle")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_09_persistent_checkbox_toggle(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Check default unselected state"):
+            assert login_page.is_remember_me_checked() is False
+        with allure.step("2. Toggle persistent checkbox via custom label"):
+            login_page.toggle_remember_me()
+        with allure.step("3. Confirm checkbox state transitions to checked"):
+            assert login_page.is_remember_me_checked() is True
+
