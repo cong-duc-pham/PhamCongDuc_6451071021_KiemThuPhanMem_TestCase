@@ -144,3 +144,16 @@ class TestLoginE2E(BaseTest):
             assert login_page.is_on_login_page() is True
             assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
 
+    @allure.story("SSO Federation")
+    @allure.title("TC_SSO_01: Verify Google OAuth 2.0 SSO endpoint configuration")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_SSO_01_google_sso_endpoint_configuration(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Retrieve href attribute of 'Login with UTC email' button"):
+            sso_url = login_page.get_google_sso_href()
+            allure.attach(sso_url, name="Google SSO URL", attachment_type=allure.attachment_type.TEXT)
+        with allure.step("2. Validate standard Google OAuth parameters"):
+            assert "accounts.google.com/o/oauth2/auth" in sso_url
+            assert "client_id=" in sso_url
+            assert "vanphongdientu.utc.edu.vn" in sso_url
+
