@@ -24,3 +24,14 @@ class TestForgotPasswordE2E(BaseTest):
             assert "/Login/GetPass" in self.driver.current_url or "/Login/Getpass" in self.driver.current_url
             assert "Lấy lại mật khẩu" in self.driver.title
 
+    @allure.story("UI & Elements Rendering")
+    @allure.title("TC_FP_08: Verify display of captcha image and university logo")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_FP_08_captcha_image_and_logo(self):
+        forgot_page = ForgotPasswordPage(self.driver).open()
+        with allure.step("1. Verify university logo is displayed"):
+            assert forgot_page.is_logo_displayed() is True
+        with allure.step("2. Verify Captcha image is displayed with valid source URL"):
+            assert forgot_page.is_captcha_image_displayed() is True
+            assert "/login/index/captcha" in forgot_page.get_captcha_image_src()
+
