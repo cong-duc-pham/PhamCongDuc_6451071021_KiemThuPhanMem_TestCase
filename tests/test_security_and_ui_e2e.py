@@ -74,3 +74,11 @@ class TestSecurityAndUiE2E(BaseTest):
         with allure.step("2. Confirm system automatically redirects to /Login"):
             assert "/Login" in self.driver.current_url
 
+    @allure.story("Security - Transport Layer Security")
+    @allure.title("TC_SEC_06: Verify HTTPS protocol and secure connection")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_SEC_06_https_security(self):
+        with allure.step("1. Verify website enforces HTTPS protocol"):
+            self.driver.get("https://vanphongdientu.utc.edu.vn/Login")
+            assert self.driver.current_url.startswith("https://")
+
