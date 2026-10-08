@@ -77,3 +77,14 @@ class TestForgotPasswordE2E(BaseTest):
         with allure.step("2. Verify validation error message"):
             assert "Mã bảo mật không chính xác" in forgot_page.get_error_message()
 
+    @allure.story("Navigation")
+    @allure.title("TC_FP_07: Verify return to login page link")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_FP_07_back_to_login_link(self):
+        forgot_page = ForgotPasswordPage(self.driver).open()
+        with allure.step("1. Click 'Back to login' link"):
+            login_page = forgot_page.click_back_to_login()
+        with allure.step("2. Confirm return navigation to Login page"):
+            assert "/Login" in self.driver.current_url
+            assert "Đăng nhập" in self.driver.title
+
