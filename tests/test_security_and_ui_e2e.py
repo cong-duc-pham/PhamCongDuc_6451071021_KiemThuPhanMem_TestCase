@@ -64,3 +64,13 @@ class TestSecurityAndUiE2E(BaseTest):
                 # No alert was triggered => Secure
                 assert True
 
+    @allure.story("Security - Session Access Control")
+    @allure.title("TC_SEC_05: Verify unauthorized direct access prevention to internal url")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_SEC_05_auth_guard_redirect(self):
+        with allure.step("1. Navigate directly to root internal URL"):
+            self.driver.get("https://vanphongdientu.utc.edu.vn/")
+
+        with allure.step("2. Confirm system automatically redirects to /Login"):
+            assert "/Login" in self.driver.current_url
+
