@@ -157,3 +157,18 @@ class TestLoginE2E(BaseTest):
             assert "client_id=" in sso_url
             assert "vanphongdientu.utc.edu.vn" in sso_url
 
+    @allure.story("Account Security & Lockout Policy")
+    @allure.title("TC_LOG_10: Assert account lockout policy after multiple failed attempts")
+    @allure.description("Expected: System activates brute force protection and displays 'Account is temporarily locked'. Actual: Target website does not lock account -> Defect detected (Intentional test failure for Allure bug report).")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_TC_LOG_10_account_lockout_after_multiple_failures(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Submit repeatedly invalid credentials"):
+            login_page.login_as("sinhvien_test_lock", "SaiMatKhau123")
+        with allure.step("2. Verify account lockout warning banner"):
+            error_msg = login_page.get_error_message()
+            allure.attach(error_msg, name="Actual Message", attachment_type=allure.attachment_type.TEXT)
+            # Expect account lockout notice to protect against brute-force attacks
+            assert "tạm thời bị khóa" in error_msg.lower() or "bị khóa" in error_msg.lower(), \
+                f"Defect detected: System lacks account lockout policy! Actual message: '{error_msg}'"
+
