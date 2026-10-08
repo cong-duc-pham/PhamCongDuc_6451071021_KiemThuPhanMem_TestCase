@@ -34,3 +34,15 @@ class TestLoginE2E(BaseTest):
                 assert login_page.is_on_login_page() is True
                 assert login_page.is_password_field_masked() is True
 
+    @allure.story("Internal Account Authentication")
+    @allure.title("TC_LOG_02: Verify login fails with invalid password")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @pytest.mark.regression
+    def test_TC_LOG_02_invalid_password(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Enter existing username and incorrect password"):
+            login_page.login_as("sinhvien01", "WrongPassword@999")
+        with allure.step("2. Verify authentication rejection error banner"):
+            assert login_page.is_on_login_page() is True
+            assert "Tài khoản hoặc mật khẩu không đúng." in login_page.get_error_message()
+
