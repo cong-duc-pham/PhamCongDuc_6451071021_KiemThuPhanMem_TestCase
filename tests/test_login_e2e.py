@@ -125,3 +125,11 @@ class TestLoginE2E(BaseTest):
         with allure.step("3. Confirm checkbox state transitions to checked"):
             assert login_page.is_remember_me_checked() is True
 
+    @allure.story("UI Security")
+    @allure.title("TC_LOG_11: Verify password masking for security")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_TC_LOG_11_password_masking(self):
+        login_page = LoginPage(self.driver).open()
+        with allure.step("1. Verify HTML type attribute of password input"):
+            assert login_page.is_password_field_masked() is True, "Password field must have type='password'!"
+
